@@ -8,10 +8,10 @@ function App() {
 	const [result, setResult] = useState("pending");
 	const [outcome, setOutcome] = useState("initial");
 	const [isLoaded, setIsLoaded] = useState(false);
+	const [reset, setReset] = useState(false);
 
 	const handlePlay = (e) => {
 		// setIsLoaded(false);
-
 		console.log("player chooses", option);
 		console.log("computer chooses", result);
 		e.target.disabled = "true";
@@ -22,7 +22,7 @@ function App() {
 				(option === "paper" && result === "paper")
 			) {
 				setIsLoaded(true);
-				setOutcome("equal");
+				setOutcome("Equality");
 			} else if (option === "rock" && result === "paper") {
 				setIsLoaded(true);
 				setOutcome("You lost, paper beats rock");
@@ -42,7 +42,7 @@ function App() {
 				setIsLoaded(true);
 				setOutcome("You won, scissors beats paper");
 			}
-			e.taget.disabled = "none";
+			setReset(true);
 		}, 500);
 	};
 
@@ -51,7 +51,7 @@ function App() {
 			<div className="App">
 				<h1>Rock Paper Scissors</h1>
 				<div style={{ display: "flex", flexDirection: "column" }}>
-					<label htmlFor="input-rock">Rock</label>
+					<label htmlFor="input-rock">🪨</label>
 					<input
 						type="radio"
 						name="option"
@@ -67,7 +67,7 @@ function App() {
 						}}
 						value="rock"
 					/>
-					<label htmlFor="input-paper">Paper</label>
+					<label htmlFor="input-paper">📃</label>
 					<input
 						type="radio"
 						name="option"
@@ -83,7 +83,7 @@ function App() {
 						}}
 						value="paper"
 					/>
-					<label htmlFor="input-scissors">Scissors</label>
+					<label htmlFor="input-scissors">✂️</label>
 					<input
 						type="radio"
 						name="option"
@@ -99,15 +99,24 @@ function App() {
 						value="scissors"
 					/>
 				</div>
-				<button onClick={handlePlay}>play</button>
-
-				{isLoaded && (
-					<>
-						<p>Computer chose {result}</p>
-						<h3>{outcome}</h3>
-					</>
-				)}
+				<button onClick={handlePlay} className="app-play-button">
+					play
+				</button>
 			</div>
+			{reset && (
+				<button
+					onClick={() => window.location.reload()}
+					className="app-reset-button"
+				>
+					reset
+				</button>
+			)}
+			{isLoaded && (
+				<>
+					<h4>Computer chose {result}</h4>
+					<h3>{outcome}</h3>
+				</>
+			)}
 		</>
 	);
 }
